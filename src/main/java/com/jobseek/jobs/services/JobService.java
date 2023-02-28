@@ -16,4 +16,8 @@ public class JobService {
   public List<Job> getJobs() {
     return jobRepository.findAll();
   }
+
+  public Job addJob(Job job) {
+    return jobRepository.insert(job);
+  }
 }
