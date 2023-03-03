@@ -1,7 +1,9 @@
 package com.jobseek.jobs.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,12 @@ public class PostController {
     return new ResponseEntity<List<Job>>(jobService.getJobs(), HttpStatus.OK);
   }
 
-  @GetMapping("/{text}")
+  @GetMapping("/{id}")
+  public ResponseEntity<Optional<Job>> getJobById(@PathVariable ObjectId id) {
+    return new ResponseEntity<Optional<Job>>(jobService.getJobById(id), HttpStatus.OK);
+  }
+
+  @GetMapping("/byText/{text}")
   public ResponseEntity<List<Job>> getJobsByText(@PathVariable String text) {
     return new ResponseEntity<List<Job>>(searchRepository.searchJobs(text), HttpStatus.OK);
   }
@@ -42,4 +49,5 @@ public class PostController {
   public ResponseEntity<Job> addJob(@RequestBody Job job) {
     return new ResponseEntity<Job>(jobService.addJob(job), HttpStatus.OK);
   }
+
 }
