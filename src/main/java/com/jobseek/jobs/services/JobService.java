@@ -27,5 +27,8 @@ public class JobService {
     return jobRepository.insert(job);
   }
 
+  public void deleteJob(ObjectId id) {
+    jobRepository.deleteById(id);
+  }
 
 }
