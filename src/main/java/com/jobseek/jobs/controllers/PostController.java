@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,10 +52,20 @@ public class PostController {
     return new ResponseEntity<Job>(jobService.addJob(job), HttpStatus.OK);
   }
 
+  @PutMapping("/update")
+  public ResponseEntity<String> updateJob(@RequestBody Job job) {
+          jobService.addJob(job);
+    return new ResponseEntity<String>("Job updated", HttpStatus.OK);
+  }
+
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<String> deleteJob(@PathVariable ObjectId id) {
+      Optional<Job> jobToDelete = jobService.getJobById(id);
+    if(!jobToDelete.isPresent())
+      return new ResponseEntity<String>("Job with id (" + id + ") not found.", HttpStatus.NOT_FOUND);
      jobService.deleteJob(id);
      return new ResponseEntity<String>("Job deleted", HttpStatus.OK);
   }
 
 }
+
