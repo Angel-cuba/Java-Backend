@@ -24,7 +24,13 @@ public class JobService {
   }
 
   public Job addJob(Job job) {
-    return jobRepository.insert(job);
+      Optional<Job> presentJob = jobRepository.findById(ObjectId.get());
+
+    if(presentJob.isPresent()){
+    jobRepository.save(job);
+    }
+   jobRepository.save(job);
+   return job;
   }
 
   public void deleteJob(ObjectId id) {
